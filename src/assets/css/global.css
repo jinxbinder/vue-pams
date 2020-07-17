@@ -16,4 +16,7 @@ html,body,#app{
 .elForm{
     float: left;
 }
+.el-aside{
+    background-color: #3584f7;
+}
 

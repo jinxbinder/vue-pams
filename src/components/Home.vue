@@ -2,27 +2,65 @@
   <el-container class="home-container">
     <el-header>
       <div>
-        <img src="../assets/heima.png" alt="">
-        <span>电商后台管理系统</span>
+        <span>绩效管理系统</span>
       </div>
-      <el-button type="info" @click="logout()">退出</el-button>
+      <ul class="nav">
+        <li>
+          <i class="el-icon-s-home"></i><br>
+          <span>首页</span>
+        </li>
+        <li>
+          <i class="el-icon-s-order"></i><br>
+          <span>绩效考评</span>
+        </li>
+        <li>
+          <i class="el-icon-tickets"></i><br>
+          <span>经费预算</span>
+        </li>
+        <li>
+          <i class="el-icon-s-check"></i><br>
+          <span>人力资源</span>
+        </li>
+        <li>
+          <i class="el-icon-setting"></i><br>
+          <span>系统管理</span>
+        </li>
+        </ul>
+        <ul class="nva-rig">
+          <li class="avatar" style="margin-left: 100px">
+            <div id="avatar"></div>
+            <span>您好，管理员</span>
+          </li>
+          <li class="avatar">
+            <i class="el-icon-lock"></i>
+            <span>密码管理</span>
+          </li>
+          <li class="avatar">
+            <i class="el-icon-switch-button"></i>
+            <span @click="logout()"> 退出登录</span>
+          </li>
+        </ul>
+
+
+
+
     </el-header>
     <el-container>
-      <el-aside :width="isCollapse ? '64px' : '200px'">
-        <div class="toggle-button" @click="toggleCollapse">|||</div>
+      <el-aside :width="isCollapse ? '64px' : '200px'" style=" background-color: #3584f7;">
+        <div class="toggle-button" @click="toggleCollapse" style=" background-color: #1346d7;" >|||</div>
         <el-menu
-          background-color="#333744"
+          background-color="#3584f7"
           text-color="#fff"
-          active-text-color="#409EFF" unique-opened :collapse="isCollapse"
+          active-text-color="#1346d7" unique-opened :collapse="isCollapse"
           :collapse-transition="false" router>
-          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
-            <template slot="title">
-              <i :class="iconsObj[item.id]"/>
+          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id" style="border-bottom: 0.5px solid #ecf4fe;">
+            <template slot="title" >
+              <i :class="item.icon" style="color:#fff;" />
               <span>{{item.name}}</span>
             </template>
             <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.id">
               <template slot="title">
-                <i class="el-icon-menu"/>
+                <i class="el-icon-menu" style="color:#fff;" />
                 <span>{{subItem.name}}</span>
               </template>
             </el-menu-item>
@@ -31,16 +69,6 @@
       </el-aside>
       <el-main>
         <!--        主区域路由占位符-->
-
-        <!--        三个按钮-->
-        <el-row>
-          <el-button>默认按钮</el-button>
-          <el-button type="primary">主要按钮</el-button>
-          <el-button type="success">成功按钮</el-button>
-          <el-button type="info">信息按钮</el-button>
-        </el-row>
-
-
         <!--主页数据-->
         <el-table
           :data="tableData"
@@ -73,6 +101,7 @@
     data() {
       return {
         menuList: [],
+        imageUrl:'./img/logout.png',
         // 是否折叠
         isCollapse: false,
         iconsObj: {
@@ -114,7 +143,7 @@
             id: "1",
             path: "/1",
             name: "导航一",
-            icon: 'el-icon-menu',
+            icon: 'el-icon-user-solid',
             children: [
               {
                 id: "3",
@@ -155,7 +184,7 @@
             id: "8",
             path: "/2",
             name: "导航二",
-            icon: 'el-icon-menu'
+            icon: 'el-icon-setting'
           }
         ]
         console.log(this.menuList)
@@ -176,7 +205,7 @@ this.$router.push({path:'/login'})
   }
 
   .el-header {
-    background-color: #373d41;
+    background-color: #3584f7;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -191,10 +220,6 @@ this.$router.push({path:'/login'})
 
   .el-header > div > span {
     margin-left: 15px;
-  }
-
-  .el-aside {
-    background-color: #333744;
   }
 
   .el-main {
@@ -213,5 +238,52 @@ this.$router.push({path:'/login'})
     text-align: center;
     letter-spacing: 0.2em;
     cursor: pointer;
+  }
+  .logout{
+    color: whitesmoke;
+    font-size: 18px;
+  }
+  .logout:hover{
+    cursor: pointer;
+  }
+  .nav{
+
+  }
+  .nav li{
+    list-style: none;
+    float: left;
+  }
+  .nav li:hover{
+    cursor: pointer;
+    color: #cccccc;
+  }
+  .nav li{
+    padding: 2px 30px;
+  }
+  .nav li span{
+    font-size: 14px;
+  }
+  .nva-rig{
+    float: right;
+  }
+  .nva-rig li{
+    padding: 2px 15px;
+    line-height: 44px;
+    float: left;
+    list-style: none;
+  }
+  .nva-rig li span{
+    font-size: 14px;
+  }
+  #avatar{
+    width: 50px;
+    height: 50px;
+    background-image: url("img/avatar.png");
+    background-size: 100% 100%;
+    float: left;
+  }
+
+  .avatar{
+
   }
 </style>

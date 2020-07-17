@@ -1,106 +1,163 @@
 <template>
-  <!--  登陆界面-->
-  <div id="logo">
-    <div class="outer_label">
-    </div>
-    <div class="login_form">
-      <input type="text" class="qxs-ic_user qxs-icon" placeholder="用户名" v-model="userName"><br>
-      <input type="text" class="qxs-ic_password qxs-icon" placeholder="密码" v-model="password"><br>
-      <!--<button class="login_btn el-button el-button&#45;&#45;primary is-round" type="primary" round>登录</button>-->
-      <el-button class="login_btn" @click.native="login" type="primary" round :loading="isBtnLoading">登录</el-button>
-      <div style="margin-top: 10px">
-        <span style="color: #000099;" @click="Login">账号登陆</span><span style="float: right;color: #A9A9AB">忘记密码？</span>
-      </div>
+  <div class="warp">
+    <div class="container">
+      <el-card class="box-card">
+        <div class="header">
+          <span>绩效考核</span>
+        </div>
+       <div class="log">
+
+       </div>
+        <div class="login">
+          <p>登录</p>
+          <div class="loginForm">
+            <el-form :model="loginForm" :rules="rules" ref="formRef" class="login_form" label-width="0px" >
+              <!--            用户名称-->
+              <el-form-item prop="username">
+                <el-input class="el-input" v-model="loginForm.username" prefix-icon="iconfont icon-user" 
+                style="width:300px;" placeholder="输入用户" clearable/>
+              </el-form-item>
+              <!--            用户密码-->
+              <el-form-item prop="password">
+                <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" 
+                type="password" placeholder="输入密码" show-password clearable/>
+              </el-form-item>
+              <!--           验证码-->
+              <el-form-item prop="validateCode">
+                <el-input v-model="loginForm.validateCode" prefix-icon="el-icon-finished" 
+                placeholder="输入验证码" style="width:200px; float:left;"/>
+              </el-form-item>
+              <div class="validateCode">
+                验证码
+              </div>
+              <div class="forget">
+                <a>忘记账号密码？</a>
+              </div>
+              <!-- 按钮-->
+              <el-form-item class="btns">
+                <el-button type="primary" @click="login" style="width:300px;">登录</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
-
-
 <script>
-  //  import { userLogin } from '../../api/api';
 
   export default {
+    name: 'Login',
     data() {
       return {
-        userName: '',
-        password: '',
-        isBtnLoading: false
-      }
-    },
-    created() {
-      if (JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).userName) {
-        this.userName = JSON.parse(localStorage.getItem('user')).userName;
-        this.password = JSON.parse(localStorage.getItem('user')).password;
-      }
-    },
-    computed: {
-      btnText() {
-        if (this.isBtnLoading) return '登录中...';
-        return '登录';
+        loginForm: {
+          username: '',
+          password: '',
+        },
+        rules: {
+          password: [
+            {required: true, message: '请输入用户密码', trigger: 'blur'},
+
+          ],
+          username: [
+            {required: true, message: '请输入用户名称', trigger: 'blur'}
+          ]
+        },
       }
     },
     methods: {
-      login() {
-        // if (!this.userName) {
-        //   this.$message.error('请输入用户名');
-        //   return;
-        // }
-        // if (!this.password) {
-        //   this.$message.error('请输入密码');
-        //   return;
-        // }
-        this.$router.push({path: '/home'})
-      }
+     login(){
+       this.$http.post('/main/login/',this.loginForm).then(res=>{
+         if(res.data.flag){
+           this.$message({
+             message:res.data.message,
+             type: 'success'
+
+           })
+           //登录成功之后的一些操作
+           //将登录成功之后token保存到客户端中得sessionStorage中；
+           //项目中除了登录之外的接口，其他接口必须在登录之后才能访问
+
+           //通过路由编程式导航到主页面中
+           this.$router.push('/home');
+         }else {
+           this.$message.error(res.data.message)
+         }
+       })
+     }
     }
   }
 </script>
-<style>
-  body {
-    background: url("../../img/logo-bck.jpg"), no-repeat;
-    background-size: cover;
-    position: absolute;
-
+<style scoped>
+  .warp{
+    background-color: #42b983;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    background-image:url("../img/bag.jpg");
   }
-
-  .login_form {
-    padding-top: 10%;
-    padding-left: 10%;
-    padding-right: 10%;
+  .container{
+    width: 1000px;
+    height: 600px;
+    background-color: #A9A9AB;
+    margin: 80px 245px;
   }
-
-  .qxs-ic_user {
-    /*background: url("../../assets/login/ic_user.png") no-repeat;*/
-    background-size: 13px 15px;
-    background-position: 3%;
+  .log{
+    width: 430px;
+    height: 330px;
+    background-image: url("../img/log.jpg");
+    background-size: 100% 100%;
+    float: left;
+    margin: 100px 20px 100px 40px;
   }
-
-  .qxs-ic_password {
-    /*background: url("../../assets/login/ic_password.png") no-repeat;*/
-    background-size: 13px 15px;
-    background-position: 3%;
-    margin-bottom: 20px;
+  .header{
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    border-bottom: #cccccc solid 1px;
   }
-
-  .login_btn {
-    width: 10%;
-    font-size: 16px;
-    background: -webkit-linear-gradient(left, #000099, #2154FA); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, #000099, #2154FA); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, #000099, #2154FA); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, #000099, #2154FA); /* 标准的语法 */
-    filter: brightness(1.4);
+  .header span{
+    font-size: 28px;
+    color: #489af3;
+   float: left;
+    font-weight: 800;
+    letter-spacing: 4px;
   }
-
-  #logo {
-    /*margin: 30%;*/
-    width: 70%;
-    height: 70%;
-    background: white;
-   position: relative;
-    right: 15%;
-    top: 15%;
-    left: 15%;
+  .login{
+    float: right;
   }
-
-
+  .login p{
+    color: #489af3;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 40px;
+  }
+  .loginForm{
+    margin: 30px 40px;
+  }
+  .validateCode{
+    float: right;
+    margin-top: -60px;
+    width: 80px;
+    height: 38px;
+    background-color: #42b983;
+    text-align: center;
+    line-height: 38px;
+  }
+  .btns{
+    margin-top: 50px;
+  }
+  .forget{
+    margin-left: -186px;
+    color: #d9dede;
+  }
+  .forget a{
+    font-size: 14px;
+  }
+  .forget a:hover{
+    cursor:pointer;
+  }
+ 
 </style>
