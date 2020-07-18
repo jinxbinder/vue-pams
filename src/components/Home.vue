@@ -33,17 +33,13 @@
           </li>
           <li class="avatar">
             <i class="el-icon-lock"></i>
-            <span>密码管理</span>
+            <span @click="pwdManage()">密码管理</span>
           </li>
           <li class="avatar">
             <i class="el-icon-switch-button"></i>
             <span @click="logout()"> 退出登录</span>
           </li>
         </ul>
-
-
-
-
     </el-header>
     <el-container>
       <el-aside :width="isCollapse ? '64px' : '200px'" style=" background-color: #3584f7;">
@@ -69,27 +65,19 @@
       </el-aside>
       <el-main>
         <!--        主区域路由占位符-->
-        <!--主页数据-->
-        <el-table
-          :data="tableData"
-          style="width: 100%">
-          <el-table-column
-            prop="date"
-            label="日期"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="姓名"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="地址">
-          </el-table-column>
-        </el-table>
+        <router-view></router-view>
       </el-main>
     </el-container>
+    <!--密码管理弹出框-->
+    <el-dialog
+      :visible.sync="centerDialogVisible" width="30%" center>
+      <span>需要注意的是内容是默认不居中的</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+  </span>
+    </el-dialog>
+
   </el-container>
 </template>
 
@@ -101,6 +89,7 @@
     data() {
       return {
         menuList: [],
+        centerDialogVisible:false,
         imageUrl:'./img/logout.png',
         // 是否折叠
         isCollapse: false,
@@ -111,23 +100,6 @@
           '4': 'iconfont icon-danju',
           '5': 'iconfont icon-baobiao'
         },
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
       }
     },
     created() {
@@ -142,40 +114,20 @@
           {
             id: "1",
             path: "/1",
-            name: "导航一",
+            name: "员工管理",
             icon: 'el-icon-user-solid',
             children: [
               {
                 id: "3",
                 path: "/user/userLists",
-                name: "导航1-1",
+                name: "员工列表",
                 icon: 'el-icon-menu',
-                children: [
-                  {
-                    id: "4",
-                    path: "/1/1/1",
-                    name: "导航1-1-1",
-                    icon: 'el-icon-menu',
-                  },
-                  {
-                    id: "5",
-                    path: "/1/1/2",
-                    name: "导航1-1-2",
-                    icon: 'el-icon-menu',
-                  },
-                  {
-                    id: "6",
-                    path: "/1/1/3",
-                    name: "导航1-1-3",
-                    icon: 'el-icon-menu',
-                  }
-                ]
-              },
 
+              },
               {
-                id: "2",
-                path: "/authority/authorityLists",
-                name: "导航1-2",
+                id: "4",
+                path: "/user/labor",
+                name: "劳动关系",
                 icon: 'el-icon-menu',
               }
             ]
@@ -183,8 +135,28 @@
           {
             id: "8",
             path: "/2",
-            name: "导航二",
-            icon: 'el-icon-setting'
+            name: "绩效管理",
+            icon: 'el-icon-setting',
+            children: [
+              {
+                id: "9",
+                path: "/performance/attendance",
+                name: "考勤管理",
+                icon: 'el-icon-menu',
+              },
+              {
+                id: "10",
+                path: "/performance/post",
+                name: "岗位管理",
+                icon: 'el-icon-menu',
+              },
+              {
+                id: "11",
+                path: "/performance/level",
+                name: "岗级绩效",
+                icon: 'el-icon-menu',
+              }
+            ]
           }
         ]
         console.log(this.menuList)
@@ -193,7 +165,10 @@
         this.isCollapse = !this.isCollapse
       },
       logout() {
-this.$router.push({path:'/login'})
+          this.$router.push({path:'/login'})
+      },
+      pwdManage(){
+        this.centerDialogVisible = true
       }
     }
   }
@@ -274,6 +249,10 @@ this.$router.push({path:'/login'})
   }
   .nva-rig li span{
     font-size: 14px;
+  }
+  .nva-rig li:hover{
+    cursor: pointer;
+    color: #cccccc;
   }
   #avatar{
     width: 50px;

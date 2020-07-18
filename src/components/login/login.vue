@@ -14,17 +14,17 @@
             <el-form :model="loginForm" :rules="rules" ref="formRef" class="login_form" label-width="0px" >
               <!--            用户名称-->
               <el-form-item prop="username">
-                <el-input class="el-input" v-model="loginForm.username" prefix-icon="iconfont icon-user" 
+                <el-input class="el-input" v-model="loginForm.username" prefix-icon="iconfont icon-user"
                 style="width:300px;" placeholder="输入用户" clearable/>
               </el-form-item>
               <!--            用户密码-->
               <el-form-item prop="password">
-                <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" 
+                <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima"
                 type="password" placeholder="输入密码" show-password clearable/>
               </el-form-item>
               <!--           验证码-->
               <el-form-item prop="validateCode">
-                <el-input v-model="loginForm.validateCode" prefix-icon="el-icon-finished" 
+                <el-input v-model="loginForm.validateCode" prefix-icon="el-icon-finished"
                 placeholder="输入验证码" style="width:200px; float:left;"/>
               </el-form-item>
               <div class="validateCode">
@@ -67,12 +67,11 @@
     },
     methods: {
      login(){
-       this.$http.post('/main/login/',this.loginForm).then(res=>{
+       this.$http.post('/login/',this.loginForm).then(res=>{
          if(res.data.flag){
            this.$message({
              message:res.data.message,
              type: 'success'
-
            })
            //登录成功之后的一些操作
            //将登录成功之后token保存到客户端中得sessionStorage中；
@@ -159,5 +158,5 @@
   .forget a:hover{
     cursor:pointer;
   }
- 
+
 </style>

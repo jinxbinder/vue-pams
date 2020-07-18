@@ -20,7 +20,7 @@
             <el-table-column label="路径" prop="psApiPath" align="center"></el-table-column>
             <el-table-column label="权限级别" prop="psLevel" align="center">
                 <template slot-scope="scope">
-                    
+
                     <el-tag v-if="scope.row.psLevel =='1'">一级</el-tag>
                     <el-tag type="success" v-else-if="scope.row.psLevel =='2'">二级</el-tag>
                     <el-tag type="warning" v-else>三级</el-tag>
@@ -42,7 +42,9 @@
     </div>
 </template>
 <script>
+
 export default {
+
    name: 'AuthorityLists',
    data () {
        return {
@@ -53,6 +55,7 @@ export default {
             total:0,//总记录数
             queryString:null//查询条件
        },
+
        dataList:[]
    }
  },
@@ -60,7 +63,6 @@ export default {
      this.findPage();
  },
  methods: {
-      
       findPage(){
           //封装查询的参数
           var parm = {
