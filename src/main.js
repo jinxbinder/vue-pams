@@ -13,9 +13,14 @@ axios.defaults.baseURL='http://localhost:8081/'
 //通过axios请求拦截器添加token，保证获取数据的权限
 axios.interceptors.request.use(config=>{
   //为请求头对象添加token的Authorization字段
-  config.headers.Authorization = window.sessionStorage.getItem('token')
+  let token = sessionStorage.getItem('Authorization')
+  if (!config.headers.hasOwnProperty('Authorization') && token) {
+    config.headers.Authorization = token;
+    // config.headers.Authorization = window.sessionStorage.getItem('Authorization')
+  }
   return config
-})
+});
+
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 

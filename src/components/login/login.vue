@@ -63,6 +63,7 @@
             {required: true, message: '请输入用户名称', trigger: 'blur'}
           ]
         },
+
       }
     },
     methods: {
@@ -75,6 +76,7 @@
            })
            //登录成功之后的一些操作
            //将登录成功之后token保存到客户端中得sessionStorage中；
+           window.sessionStorage.setItem("Authorization", JSON.stringify(res.data.data));
            //项目中除了登录之外的接口，其他接口必须在登录之后才能访问
 
            //通过路由编程式导航到主页面中
@@ -85,7 +87,10 @@
        })
      }
     }
+
   }
+  var token = null;
+  sessionStorage.setItem("",token)
 </script>
 <style scoped>
   .warp{
