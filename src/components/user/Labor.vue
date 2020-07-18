@@ -16,8 +16,8 @@
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.isFormal" disabled
-                :active-value="0"
-                :inactive-value="1">
+                :active-value="1"
+                :inactive-value="0">
               </el-switch>
             </template>
           </el-table-column>
@@ -26,7 +26,7 @@
           <el-table-column label="操作" align="center" >
             <template slot-scope="scope">
               <!-- 查看审批-->
-              <el-button type="primary" icon="el-icon-zoom-in" size='mini'  @click="edit(scope.row.userId)">查看审批</el-button>
+              <el-button type="primary" icon="el-icon-zoom-in" size='mini'  @click="check(scope.row.empId)">查看审批</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -42,11 +42,47 @@
           </el-pagination>
         </div>
       </el-card>
+      <!--查看审批弹出框-->
+      <el-dialog
+        title="审批情况"
+        :visible.sync="dialogVisible" center>
+        <el-form label-width="80px" label-position="left" :model="formData">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="审核状态">
+                <el-input  placeholder="审核状态" v-model="formData.formalStatus"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :span="12">
+            <el-form-item label="审核">
+              <el-select v-model="formData.isFormal" >
+                <el-option label="审核通过" :value="1"></el-option>
+                <el-option label="审核不通过" :value="0"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="审批人" prop="formalPer">
+                <el-input  v-model="formData.formalPer"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-form-item>
+            <el-button type="primary" @click="update()">保存</el-button>
+            <el-button type="info" @click="dialogVisible = false">取消</el-button>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer"></span>
+      </el-dialog>
     </div>
 </template>
 <script>
     export default {
         name: "Labor",
+
       data () {
         return {
           //封装用户查询的信息
@@ -56,7 +92,9 @@
             total:0,//总记录数
             queryString:null//查询条件
           },
-          dataList:[]
+          dialogVisible:false,
+          dataList:[],
+          formData:{}
         }
       },
       created(){
@@ -74,6 +112,26 @@
           this.$http.post(`/labor/findPage`,parm).then(res => {
             this.dataList = res.data.rows;
             this.pagination.total =res.data.total
+          })
+        },
+        check(empId){
+          this.dialogVisible = true;
+          this.$http.get(`/labor/findByEmpId?empId=${empId}`).then(res=>{
+             this.formData =res.data.data;
+          })
+        },
+        update(){
+          this.$http.post(`labor/update`,this.formData).then(res =>{
+            this.dialogVisible = false;
+            if(res.data.flag){
+              this.$message({
+                type:'success',
+                message:res.data.message
+              })
+              this.findPage()
+            }else{
+              this.$message.error(res.data.message);
+            }
           })
         },
         handleCurrentChange(currentPage){
