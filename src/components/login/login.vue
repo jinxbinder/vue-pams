@@ -25,7 +25,7 @@
               <!--           验证码-->
               <el-form-item prop="validateCode">
                 <el-input class="input-val" v-model="ruleForm.verifyCode" prefix-icon="el-icon-finished"
-                placeholder="请输入验证码" style="width:200px; float:left;" @keyup.enter.native="submitForm('ruleForm')"/>
+                placeholder="请输入验证码" style="width:195px; float:left;" @keyup.enter.native="submitForm('ruleForm')"/>
                 <div id="v_container"></div>
               </el-form-item>
               <!--<div class="validateCode valCode">-->
@@ -82,6 +82,7 @@ import { GVerify } from'../../plungs/gVerify'
             title: '系统提示',
             message: '验证码输入错误'
           })
+          this.verifyCode.refresh();
           return;
         } else {
           this.$refs[formName].validate(valid => {
@@ -186,12 +187,5 @@ import { GVerify } from'../../plungs/gVerify'
   }
   .forget a:hover{
     cursor:pointer;
-  }
-  #canvas {
-    vertical-align: middle;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    z-index: 999;
   }
 </style>

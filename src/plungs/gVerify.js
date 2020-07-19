@@ -65,6 +65,8 @@ GVerify.prototype = {
     } else {
       var txtArr = this.options.letterArr
     }
+    // 修复验证码刷新比对错误
+    this.options.code = ''
 
     for (var i = 1; i <= 4; i++) {
       var txt = txtArr[randomNum(0, txtArr.length)]
