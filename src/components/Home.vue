@@ -176,8 +176,15 @@
       toggleCollapse() {
         this.isCollapse = !this.isCollapse
       },
-      logout() {
-          this.$router.push({path:'/login'})
+      logout(){
+        this.$http.get('/logout').then(res=>{
+          window.sessionStorage.setItem("Authorization", '');
+          this.$router.push('/login')
+          this.$message({
+            type:'success',
+            message:res.data.message
+          })
+        })
       },
       pwdManage(){
         this.centerDialogVisible = true

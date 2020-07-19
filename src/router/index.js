@@ -39,5 +39,17 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-
+ router.beforeEach((to,from,next)=>{
+  if (to.path === '/login')return next()
+  //从sessionStorage获取保存的token值
+  const sessionStorage = window.sessionStorage.getItem("Authorization")
+  if (!sessionStorage){
+    return next('/login')
+  }
+  next()
+})
 export default router
+
+
+
+
