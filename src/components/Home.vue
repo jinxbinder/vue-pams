@@ -69,12 +69,22 @@
       </el-main>
     </el-container>
     <!--密码管理弹出框-->
-    <el-dialog
-      :visible.sync="centerDialogVisible" width="30%" center>
-      <span>需要注意的是内容是默认不居中的</span>
+    <el-dialog :visible.sync="centerDialogVisible" width="30%" center class="pas">
+      <el-form :model="rePass">
+        <div>
+          <span style="margin-right: 8px">请输入用户姓名</span><el-input style="width: 250px" v-model="rePass.username"></el-input>
+        </div>
+        <div>
+          <span style="margin-right: 20px">请输入旧密码</span><el-input style="width: 250px" v-model="rePass.password"></el-input>
+        </div>
+        <div>
+          <span style="margin-right: 20px">请输入新密码</span><el-input style="width: 250px" v-model="rePass.newPass"></el-input>
+        </div>
+      </el-form>
+
       <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+    <el-button type="primary" @click="repass">确 定</el-button>
   </span>
     </el-dialog>
 
@@ -91,6 +101,8 @@
         menuList: [],
         centerDialogVisible:false,
         imageUrl:'./img/logout.png',
+        rePass:{},
+
         // 是否折叠
         isCollapse: false,
         iconsObj: {
@@ -169,6 +181,19 @@
       },
       pwdManage(){
         this.centerDialogVisible = true
+      },
+      repass(){
+        this.$http.post(`/user/repass`,this.rePass).then(res=>{
+            this.centerDialogVisible = false
+          if(res.data.flag){
+            this.$message({
+              type:'success',
+              message:res.data.message
+            })
+          }else{
+            this.$message.error(res.data.message);
+          }
+        })
       }
     }
   }
@@ -261,8 +286,7 @@
     background-size: 100% 100%;
     float: left;
   }
-
-  .avatar{
-
+  .pas div{
+    margin: 10px 5px 10px 5px;
   }
 </style>
