@@ -9,6 +9,7 @@ import './plungs/jutils.js'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/fonts/iconfont.css'
 import axios from 'axios'
+import $ from 'jquery'
 axios.defaults.baseURL='http://localhost:8081/'
 //通过axios请求拦截器添加token，保证获取数据的权限
 axios.interceptors.request.use(config=>{
