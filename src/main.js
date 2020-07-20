@@ -22,15 +22,24 @@ axios.interceptors.request.use(config=>{
   return config
 });
 //响应拦截器
+/*
 axios.interceptors.response.use(res=>{
   console.log("响应状态码："+res.status);
-  if(204 === res.status){
-    alert("您长时间未操作，需要重新登录！");
-    router.push('/login')
 
-  }
   return res;
-});
+},
+  error => {
+  console.log("错误状态码",error.status);
+  console.log("错误状态码",error.code);
+  console.log("错误状态码",error.status.code);
+  console.log("错误状态码",error.toString());
+    if(401 === error.status){
+      router.push('/login')
+      // alert("您长时间未操作，需要重新登录！");
+
+    }
+  });
+*/
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false

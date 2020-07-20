@@ -200,6 +200,13 @@
           }else{
             this.$message.error(res.data.message);
           }
+        }).catch(error=>{
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
+          }
         })
       }
     }

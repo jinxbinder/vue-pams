@@ -70,6 +70,13 @@
           this.dataList = res.data.rows
           this.pagination.total = res.data.total
 
+        }).catch(error=>{
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
+          }
         })
       },
       resetFormData(){
@@ -92,7 +99,12 @@
           // aLink.click()
 
         }).catch(error=>{
-          console.log(error);
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
+          }
         })
 
       },

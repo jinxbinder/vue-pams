@@ -110,6 +110,13 @@
           this.dataList = res.data.rows
           this.pagination.total = res.data.total
 
+        }).catch(error=>{
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
+          }
         })
       },
       //弹出新增或修改窗口
@@ -121,6 +128,13 @@
             this.titleMsg = "编辑信息"
           }else {
             this.titleMsg = "新增员工"
+          }
+        }).catch(error=>{
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
           }
         })
       },
@@ -135,6 +149,13 @@
             this.findPage()
           }else{
             this.$message.error(res.data.message);
+          }
+        }).catch(error=>{
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
           }
         })
       },
@@ -155,12 +176,14 @@
               this.$message.error(res.data.message)
             }
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
+        }).catch(error=>{
+          console.log("错误状态码："+error.response.status)
+          if(401 === error.response.status){
+            this.$message.info("您长时间未操作，请重新登录！")
+            window.sessionStorage.setItem("Authorization", '');
+            this.$router.push('/login')
+          }
+        })
       },
       resetFormData(){
         this.formData={}
