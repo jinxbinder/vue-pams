@@ -12,7 +12,7 @@
           <!-- 搜索与添加区域 -->
           <el-form :inline="true" class="elForm">
             <el-form-item>
-              <el-input v-model="pagination.queryString" placeholder="用户姓名/学历" class="filter-item" >
+              <el-input v-model="pagination.queryString" placeholder="用户姓名" class="filter-item" >
               </el-input>
             </el-form-item>
 

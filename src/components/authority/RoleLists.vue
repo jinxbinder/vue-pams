@@ -15,7 +15,7 @@
             <el-table-column label="角色名称" prop="roleName" align="center"></el-table-column>
             <el-table-column label="角色描述" prop="roleDesc" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
-                <template slot-scope="scope">   
+                <template slot-scope="scope">
                     <!-- 修改 -->
                     <el-button type="primary" icon="el-icon-edit" size='mini'  @click="edit(scope.row.roleId)"></el-button>
                     <!-- 删除 -->
@@ -25,7 +25,7 @@
                         <el-button type="primary" icon="el-icon-zoom-in" size='mini'  @click="findAuthList(scope.row.roleId)">
                         </el-button>
                     </el-tooltip>
-                    
+
                     <!-- 分配权限 -->
                     <el-tooltip class="item" effect="dark" content="分配权限" placement="top" :enterable="false">
                         <el-button type="warning" icon="el-icon-setting" size='mini' @click="setAuthDialog(scope.row.roleId)"></el-button>
@@ -47,7 +47,7 @@
       </el-card>
       <!-- 弹出查看权限对话框 -->
       <el-dialog :visible.sync="authDialogVisible" width="80%" center>
-        <el-row v-for="(item1, index1) in authList" :key=item1.id 
+        <el-row v-for="(item1, index1) in authList" :key=item1.id
         :class="['bdbottom',index1===0?'bdtop':'','vcenter']">
             <!-- 渲染一级权限列表 -->
             <el-col :span="5">
@@ -56,7 +56,7 @@
             </el-col>
             <!-- 渲染二级和三级权限列表 -->
             <el-col :span="19">
-                <el-row v-for="(item2,index2) in item1.children" :key="item2.id" 
+                <el-row v-for="(item2,index2) in item1.children" :key="item2.id"
                 :class="[index2 ===0?'':'bdtop','vcenter']">
                     <!-- 渲染二级权限列表 -->
                     <el-col :span="6">
@@ -71,12 +71,12 @@
                     </el-col>
                 </el-row>
             </el-col>
-        </el-row>  
+        </el-row>
       </el-dialog>
       <!-- 设置权限的对话框 -->
       <el-dialog title="设置权限"
   :visible.sync="setAuthDialogVisible" width="50%" center>
-  <el-tree :data="authTree" :props="authProps" show-checkbox 
+  <el-tree :data="authTree" :props="authProps" show-checkbox
   :default-expand-all="defaultExpandAll" node-key="id"
   :default-checked-keys="checkedKeys"></el-tree>
   <span slot="footer" class="dialog-footer">
@@ -92,7 +92,7 @@ export default {
        return {
            //封装用户查询的信息
         currentPage: 1,//当前页码
-        pageSize:10,//每页显示的记录数
+        pageSize:8,//每页显示的记录数
         total:0,//总记录数
         dataList:[],//分页查询表单数据
         authList:{},//查询角色对应权限数据
@@ -110,7 +110,7 @@ export default {
 
    }
  },
- 
+
  created(){
      this.findPage();
  },
@@ -120,7 +120,7 @@ export default {
           this.$http.get(`/role/findPage?currentPage=${this.currentPage}&pageSize=${this.pageSize}`).then(res => {
               this.dataList = res.data.rows;
               this.total =res.data.total
-              
+
           })
       },
       findAuthList(id){
@@ -160,8 +160,8 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-            
-          });          
+
+          });
         });
       },
       //设置权限

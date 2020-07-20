@@ -80,16 +80,16 @@
         //
         // })
         this.$http.get("/checkWork/export",{responseType: 'blob'}).then(response=>{
-          //将response 新建成文件流
-          var blob = new Blob([response], {type: 'application/vnd.ms-excel;charset=utf-8'})
-          //创建下载地址以及a标签,并且模拟a标签的点击事件进行下载文件。
-          var url = window.URL.createObjectURL(blob);
-          var aLink = document.createElement("a");
-          aLink.style.display = "none";
-          aLink.download = '员工考勤模板.xlsx';
-          aLink.href = url;
-          document.body.appendChild(aLink)
-          aLink.click()
+          // //将response 新建成文件流
+          // var blob = new Blob([response], {type: 'application/vnd.ms-excel;charset=utf-8'})
+          // //创建下载地址以及a标签,并且模拟a标签的点击事件进行下载文件。
+          // var url = window.URL.createObjectURL(blob);
+          // var aLink = document.createElement("a");
+          // aLink.style.display = "none";
+          // aLink.download = '员工考勤模板.xlsx';
+          // aLink.href = url;
+          // document.body.appendChild(aLink)
+          // aLink.click()
 
         }).catch(error=>{
           console.log(error);

@@ -1,10 +1,15 @@
 <template>
-    <h1>Welcome</h1>
+
 </template>
 
 <script>
   export default {
-    name: 'Welcome'
+    name: 'Welcome',
+    data(){
+      return{
+
+      }
+    }
   }
 </script>
 

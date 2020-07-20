@@ -25,7 +25,7 @@
               <!--           验证码-->
               <el-form-item prop="validateCode">
                 <el-input class="input-val" v-model="ruleForm.verifyCode" prefix-icon="el-icon-finished"
-                placeholder="请输入验证码" style="width:195px; float:left;" @keyup.enter.native="submitForm('ruleForm')"/>
+                placeholder="请输入验证码" style="width:200px; float:left;" @keyup.enter.native="submitForm('ruleForm')"/>
                 <div id="v_container"></div>
               </el-form-item>
               <!--<div class="validateCode valCode">-->
@@ -101,7 +101,7 @@ import { GVerify } from'../../plungs/gVerify'
                   window.sessionStorage.setItem("Authorization", JSON.stringify(res.data.data));
                   //项目中除了登录之外的接口，其他接口必须在登录之后才能访问
                   //通过路由编程式导航到主页面中
-                  this.$router.push('/home');
+                  this.$router.push('/user/userLists');
                 } else {
                   that.$message.error({
                     title: '系统提示',
@@ -125,6 +125,7 @@ import { GVerify } from'../../plungs/gVerify'
     padding: 0;
     overflow: hidden;
     background-image:url("../img/bag.jpg");
+    background-size: cover;
   }
   .container{
     width: 1000px;
@@ -187,5 +188,12 @@ import { GVerify } from'../../plungs/gVerify'
   }
   .forget a:hover{
     cursor:pointer;
+  }
+  #canvas {
+    vertical-align: middle;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    z-index: 999;
   }
 </style>
