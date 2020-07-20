@@ -77,6 +77,7 @@ import { GVerify } from'../../plungs/gVerify'
         // 获取验证码
         var verifyCode = this.ruleForm.verifyCode
         var verifyFlag = this.verifyCode.validate(verifyCode)
+
         if (!verifyFlag) {
           that.$message.error({
             title: '系统提示',
@@ -87,6 +88,8 @@ import { GVerify } from'../../plungs/gVerify'
         } else {
           this.$refs[formName].validate(valid => {
             if (valid) {
+              //密码RSA加密
+              this.ruleForm.password = this.$encruption(this.ruleForm.password);
               // 判断是否登录成功
               this.$http.post('/login/', this.ruleForm).then(res => {
                 if (res.data.flag) {
