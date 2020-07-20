@@ -21,6 +21,16 @@ axios.interceptors.request.use(config=>{
   }
   return config
 });
+//响应拦截器
+axios.interceptors.response.use(res=>{
+  console.log("响应状态码："+res.status);
+  if(204 === res.status){
+    alert("您长时间未操作，需要重新登录！");
+    router.push('/login')
+
+  }
+  return res;
+});
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
